@@ -1,0 +1,39 @@
+@startuml UC_RH
+
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+left to right direction
+
+skinparam defaultFontSize 10
+skinparam usecase {
+  FontSize 10
+  Padding 2
+}
+skinparam actor {
+  FontSize 10
+}
+skinparam nodesep 15
+skinparam ranksep 20
+skinparam dpi 150
+
+actor "Responsable RH" as RH
+
+rectangle "Odoo" {
+  usecase "Gérer les employés" as UC14
+  usecase "Consulter la hiérarchie" as UC15
+  usecase "Gérer les demandes de congé" as UC16
+  usecase "Gérer les candidatures" as UC17
+  usecase "Organiser les entretiens" as UC18
+  usecase "Traiter et envoyer les fiches de paie" as UC19
+  usecase "Gérer les ordres de mission" as UC20
+}
+
+RH --> UC14
+RH --> UC15
+RH --> UC16
+RH --> UC17
+RH --> UC18
+RH --> UC19
+RH --> UC20
+
+@enduml

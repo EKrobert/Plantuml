@@ -1,0 +1,30 @@
+@startuml UC_Employe
+
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+left to right direction
+
+actor "Employé" as Employe
+
+rectangle "Odoo" {
+  usecase "Consulter ses informations" as UC1
+  usecase "Créer une demande de congé" as UC2
+  usecase "Suivre l'état de sa demande de congé" as UC3
+  usecase "Créer un ordre de mission" as UC4
+  usecase "Suivre le statut de son ordre de mission" as UC5
+  usecase "Recevoir ses notifications" as UC6
+  usecase "Recevoir sa fiche de paie" as UC7
+}
+
+Employe --> UC1
+Employe --> UC2
+Employe --> UC3
+Employe --> UC4
+Employe --> UC5
+Employe --> UC6
+Employe --> UC7
+
+UC2 ..> UC3 : <<include>>
+UC4 ..> UC5 : <<include>>
+
+@enduml

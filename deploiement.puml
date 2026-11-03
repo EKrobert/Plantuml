@@ -1,0 +1,17 @@
+@startuml
+title Processus de déploiement de la solution
+
+rectangle "Environnement de développement local" as DEV
+rectangle "Branche développement" as DEVELOP
+rectangle "Pull Request" as PR
+rectangle "Branche master" as MASTER
+rectangle "Serveur Uni Fiber" as SERVER
+rectangle "Odoo" as ODOO
+
+DEV --> DEVELOP : git push
+DEVELOP --> PR : Création
+PR --> MASTER : Fusion
+MASTER --> SERVER : git pull
+SERVER --> ODOO : Redémarrage du service
+
+@enduml

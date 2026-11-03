@@ -1,0 +1,33 @@
+@startuml
+actor Employé
+participant "Odoo" as Odoo
+actor "Responsable\nHiérarchique" as Manager
+actor "Responsable RH" as RH
+
+Employé -> Odoo : créer l'ordre de mission
+Employé -> Odoo : soumettre la demande
+Odoo -> Manager : notification (validation N+1)
+
+Manager -> Odoo : valider / refuser
+
+alt Validée par le manager
+    Odoo -> RH : notification (validation finale)
+    RH -> Odoo : approuver / refuser
+
+    alt Approuvée par RH
+        Odoo -> Employé : notification "Ordre de mission validé"
+    else Refusée par RH
+        Odoo -> Employé : notification "Demande refusée"
+    end
+
+else Refusée par le manager
+    Odoo -> Employé : notification "Demande refusée"
+end
+
+opt Impression de l'ordre de mission
+    Employé -> Odoo : cliquer sur "Imprimer"
+    Odoo -> Odoo : générer le document PDF
+    Odoo -> Employé : télécharger / afficher le PDF
+end
+
+@enduml

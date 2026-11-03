@@ -1,0 +1,27 @@
+@startuml
+actor Employé
+participant "Odoo" as Odoo
+actor "Responsable\nHiérarchique" as Manager
+actor "Responsable RH" as RH
+
+Employé -> Odoo : créer demande de congé
+Employé -> Odoo : soumettre la demande
+Odoo -> Manager : notification (à approuver)
+
+Manager -> Odoo : valider / refuser
+
+alt Validée par le manager
+    Odoo -> RH : notification (deuxième validation)
+    RH -> Odoo : approuver / refuser
+
+    alt Approuvée par RH
+        Odoo -> Odoo : mise à jour du solde de congés
+        Odoo -> Employé : notification "Congé approuvé"
+    else Refusée par RH
+        Odoo -> Employé : notification "Congé refusé"
+    end
+
+else Refusée par le manager
+    Odoo -> Employé : notification "Congé refusé"
+end
+@enduml

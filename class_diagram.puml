@@ -1,0 +1,81 @@
+@startuml modeles_donnees
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide circle
+
+package "Modèles standards Odoo" #E8F0FE {
+
+  class "hr.employee" as Employee {
+    Employé
+    --
+    name : Char
+    department_id : Many2one(hr.department)
+    parent_id : Many2one(hr.employee)
+    job_title : Char
+    work_email : Char
+  }
+}
+
+package "Modèles personnalisés du projet" #FCE8E6 {
+
+  class "unifber.mission.order" as MissionOrder {
+    Ordre de mission
+    --
+    name : Char
+    employee_id : Many2one(hr.employee)
+    can_choose_employee : Boolean
+    poste : Char « related »
+    manager_id : Many2one(hr.employee) « related »
+    date_depart : Date
+    date_retour : Date
+    duree_jours : Integer
+    ville_destination : Char
+    moyen_transport : Selection
+    descriptif : Text
+    state : Selection
+    date_validation_manager : Datetime
+    date_validation_rh : Datetime
+    motif_refus : Text
+    dernier_erreur_mail : Char
+  }
+
+  class "unifiber.payslip.batch" as PayslipBatch {
+    Lot de paie
+    --
+    name : Char
+    periode : Char
+    pdf_global : Binary
+    pdf_global_name : Char
+    mail_server_id : Many2one(ir.mail_server)
+    email_from : Char
+    state : Selection
+    line_ids : One2many(unifiber.payslip.line)
+    line_count : Integer
+  }
+
+  class "unifiber.payslip.line" as PayslipLine {
+    Bulletin de paie
+    --
+    batch_id : Many2one(unifiber.payslip.batch)
+    employee_id : Many2one(hr.employee)
+    employe_trouve : Boolean
+    matricule_extrait : Char
+    email_destinataire : Char
+    email_subject : Char
+    email_body : Html
+    pdf_fiche : Binary
+    pdf_fiche_name : Char
+    state : Selection
+    date_envoi : Datetime
+    erreur_msg : Char
+  }
+}
+
+' ── Relations ──────────────────────────────────────
+Employee "1" -- "n" MissionOrder : soumet >
+Employee "1" -- "n" PayslipLine : reçoit >
+
+PayslipBatch "1" -- "n" PayslipLine : regroupe >
+
+@enduml

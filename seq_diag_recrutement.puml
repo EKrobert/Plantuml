@@ -1,0 +1,33 @@
+@startuml
+
+actor "Responsable RH" as RH
+participant "Odoo" as Odoo
+actor "Candidat" as Candidat
+
+RH -> Odoo : enregistrer nouvelle candidature
+Odoo -> Odoo : créer fiche candidat\n(salaire actuel, prétentions)
+Odoo -> Candidat : notification automatique\n(accusé de réception)
+
+alt Candidature refusée
+    Odoo -> Candidat : notification automatique\n(candidature refusée)
+else Candidature poursuivie
+
+    RH -> Odoo : programmer l'entretien
+    RH -> Candidat : envoyer l'invitation à l'entretien
+
+    alt Candidature refusée après l'entretien
+        Odoo -> Candidat : notification automatique\n(candidature refusée)
+    else Candidature acceptée
+
+        Odoo -> Candidat : notification automatique\n(candidature acceptée)
+
+        RH -> Odoo : générer le contrat
+        Odoo -> Odoo : produire le document\n(PDF/Word)
+
+        RH -> Candidat : envoyer le contrat
+        RH -> Odoo : déplacer la candidature vers "Contrat"
+
+    end
+end
+
+@enduml

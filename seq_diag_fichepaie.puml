@@ -1,0 +1,25 @@
+@startuml
+
+actor "Responsable RH" as RH
+participant "Odoo\n(module personnalisé)" as Odoo
+actor Employé
+
+RH -> Odoo : importer le fichier PDF global
+
+Odoo -> Odoo : découper en fiches individuelles
+Odoo -> Odoo : extraire le matricule
+Odoo -> Odoo : rechercher l'employé correspondant
+
+alt Matricule reconnu
+    Odoo -> Odoo : associer la fiche à l'employé
+else Matricule non reconnu
+    Odoo -> RH : signaler l'erreur d'association
+    RH -> Odoo : corriger manuellement l'association
+end
+
+RH -> Odoo : vérifier les associations
+RH -> Odoo : lancer l'envoi des bulletins
+
+Odoo -> Employé : envoyer la fiche de paie par e-mail
+
+@enduml

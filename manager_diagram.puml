@@ -1,0 +1,28 @@
+@startuml UC_Manager
+
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+left to right direction
+
+actor "Responsable Hiérarchique\n(Manager)" as Manager
+
+rectangle "Odoo" {
+  usecase "Consulter les employés rattachés" as UC8
+  usecase "Consulter les demandes de congé" as UC9
+  usecase "Consulter les ordres de mission" as UC10
+  usecase "Valider / Refuser une demande de congé" as UC11
+  usecase "Valider / Refuser un ordre de mission" as UC12
+  usecase "Recevoir les notifications de demandes" as UC13
+}
+
+Manager --> UC8
+Manager --> UC9
+Manager --> UC10
+Manager --> UC11
+Manager --> UC12
+Manager --> UC13
+
+UC9 ..> UC11 : <<include>>
+UC10 ..> UC12 : <<include>>
+
+@enduml
